@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LarryVision AI</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #080812;
+    color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #101020;
+    border-bottom: 1px solid #29294b;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #6c8cff;
+}
+
+.logo span {
+    color: #b66dff;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    background: linear-gradient(90deg, #4169ff, #a044ff);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.hero {
+    text-align: center;
+    padding: 65px 20px 40px;
+}
+
+.hero h1 {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.hero h1 span {
+    color: #8c75ff;
+}
+
+.hero p {
+    color: #b8b8ce;
+    line-height: 1.7;
+}
+
+.container {
+    max-width: 750px;
+    margin: auto;
+    padding: 20px;
+}
+
+.panel {
+    background: #121225;
+    border: 1px solid #303052;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+textarea, select {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    background: #090917;
+    color: white;
+    border: 1px solid #38385d;
+    border-radius: 8px;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.generate {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.feature {
+    padding: 20px;
+    border-radius: 12px;
+    background: #191930;
+    border: 1px solid #303052;
+}
+
+.feature h3 {
+    color: #a58bff;
+}
+
+#message {
+    color: #c7baff;
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    padding: 30px 15px;
+    color: #9292aa;
+    font-size: 13px;
+}
+
+@media (max-width: 450px) {
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">LarryVision <span>AI</span></div>
+    <button onclick="showLogin()">Sign In</button>
+</header>
+
+<section class="hero">
+    <h1>Imagine It.<br><span>Create It. See It.</span></h1>
+
+    <p>
+        Turn your imagination into videos.
+        Create, transform and explore your creativity
+        with LarryVision AI.
+    </p>
+
+    <button onclick="document.getElementById('prompt').focus()">
+        Start Creating
+    </button>
+</section>
+
+<main class="container">
+
+    <section class="panel">
+        <h2>🎬 AI Video Creator</h2>
+
+        <p>Describe the video you want to create.</p>
+
+        <textarea id="prompt"
+        placeholder="Example: A realistic cinematic video of a luxury mansion at sunset..."></textarea>
+
+        <label for="style">Video Style</label>
+
+        <select id="style">
+            <option>Cinematic</option>
+            <option>Realistic</option>
+            <option>Animation</option>
+            <option>Music Video</option>
+            <option>Social Media</option>
+        </select>
+
+        <label for="duration">Video Duration</label>
+
+        <select id="duration">
+            <option value="5">5 seconds</option>
+            <option value="10">10 seconds</option>
+            <option value="15">15 seconds</option>
+        </select>
+
+        <button class="generate" onclick="generateVideo()">
+            Generate Video
+        </button>
+
+        <p id="message">
+            Your creative workspace is ready.
+        </p>
+    </section>
+
+    <h2>Explore Your Creative Tools</h2>
+
+    <section class="features">
+
+        <div class="feature">
+            <h3>🎥 Text to Video</h3>
+            <p>Turn written ideas into video concepts.</p>
+        </div>
+
+        <div class="feature">
+            <h3>🖼️ Image to Video</h3>
+            <p>Prepare images for AI-powered animation.</p>
+        </div>
+
+        <div class="feature">
+            <h3>✂️ Video Editing</h3>
+            <p>Plan and manage your video editing projects.</p>
+        </div>
+
+        <div class="feature">
+            <h3>✨ AI Assistant</h3>
+            <p>Improve your prompts and develop creative ideas.</p>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>LarryVision Technologies</p>
+    <p>Imagine It. Create It. See It.</p>
+    <p>© 2026 LarryVision AI</p>
+</footer>
+
+<script>
+function generateVideo() {
+    const prompt = document.getElementById("prompt").value.trim();
+    const style = document.getElementById("style").value;
+    const duration = document.getElementById("duration").value;
+    const message = document.getElementById("message");
+
+    if (!prompt) {
+        message.textContent =
+            "Please describe the video you want to create.";
+        return;
+    }
+
+    message.textContent =
+        "Your " + style.toLowerCase() +
+        " video concept is ready. Duration: " +
+        duration + " seconds. " +
+        "AI video generation is not connected yet. " +
+        "A compatible AI service and secure backend are needed to generate the actual video.";
+}
+
+function showLogin() {
+    alert(
+        "User authentication will be added in the next development stage."
+    );
+}
+</script>
+
+</body>
+</html>
