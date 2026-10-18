@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LarryVision AI | Sign In</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #080812;
+    color: white;
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    padding: 30px;
+    background: #121225;
+    border: 1px solid #34345a;
+    border-radius: 18px;
+    box-shadow: 0 0 35px #5335ff20;
+}
+
+.logo {
+    text-align: center;
+    font-size: 27px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.logo span {
+    color: #a56bff;
+}
+
+.tagline {
+    text-align: center;
+    color: #aaaac4;
+    margin-bottom: 28px;
+    font-size: 14px;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.tabs button {
+    flex: 1;
+    padding: 12px;
+    background: #20203a;
+    color: white;
+    border: 1px solid #37375c;
+    border-radius: 8px;
+}
+
+.tabs button.active {
+    background: linear-gradient(90deg, #4169ff, #963fff);
+    border: none;
+}
+
+label {
+    display: block;
+    margin: 15px 0 8px;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    color: white;
+    background: #090917;
+    border: 1px solid #39395e;
+    border-radius: 8px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #8765ff;
+}
+
+.submit {
+    width: 100%;
+    margin-top: 24px;
+    padding: 14px;
+    background: linear-gradient(90deg, #4169ff, #963fff);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#message {
+    color: #c5baff;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.small {
+    color: #aaaac4;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+a {
+    color: #a58bff;
+}
+
+.back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<main class="card">
+
+    <div class="logo">
+        LarryVision <span>AI</span>
+    </div>
+
+    <p class="tagline">
+        Imagine It. Create It. See It.
+    </p>
+
+    <div class="tabs">
+        <button id="loginTab"
+        class="active" onclick="setMode('login')">
+            Sign In
+        </button>
+
+        <button id="registerTab"
+        onclick="setMode('register')">
+            Create Account
+        </button>
+    </div>
+
+    <form id="authForm">
+
+        <div id="nameField" hidden>
+            <label for="name">Full Name</label>
+            <input id="name" type="text"
+            autocomplete="name">
+        </div>
+
+        <label for="email">Email Address</label>
+        <input id="email" type="email"
+        placeholder="you@example.com"
+        autocomplete="email" required>
+
+        <label for="password">Password</label>
+        <input id="password" type="password"
+        placeholder="Enter your password"
+        minlength="8" autocomplete="current-password"
+        required>
+
+        <button class="submit" id="submitButton"
+        type="submit">
+            Sign In
+        </button>
+
+    </form>
+
+    <p id="forgot" class="small">
+        <a href="#" onclick="showRecovery(event)">
+            Forgot your password?
+        </a>
+    </p>
+
+    <p id="message" aria-live="polite"></p>
+
+    <a class="back" href="index.html">
+        ← Back to LarryVision Home
+    </a>
+
+    <p class="small">
+        LarryVision Technologies © 2026
+    </p>
+
+</main>
+
+<script>
+let mode = "login";
+
+function setMode(newMode) {
+    mode = newMode;
+
+    const registering = mode === "register";
+
+    document.getElementById("nameField").hidden =
+        !registering;
+
+    document.getElementById("name").required =
+        registering;
+
+    document.getElementById("loginTab")
+        .classList.toggle("active", !registering);
+
+    document.getElementById("registerTab")
+        .classList.toggle("active", registering);
+
+    document.getElementById("submitButton").textContent =
+        registering ? "Create Account" : "Sign In";
+
+    document.getElementById("forgot").hidden =
+        registering;
+
+    document.getElementById("password").autocomplete =
+        registering ? "new-password" : "current-password";
+
+    document.getElementById("message").textContent = "";
+}
+
+document.getElementById("authForm")
+.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const message = document.getElementById("message");
+
+    message.textContent =
+        "The form is working, but account registration " +
+        "and sign-in require a secure authentication " +
+        "service. No account has been created yet.";
+});
+
+function showRecovery(event) {
+    event.preventDefault();
+
+    document.getElementById("message").textContent =
+        "Password recovery will be available after " +
+        "we connect the authentication service.";
+}
+</script>
+
+</body>
+</html>
