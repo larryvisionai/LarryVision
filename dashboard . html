@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LarryVision AI | Dashboard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #080812;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    padding: 20px;
+    background: #111124;
+    border-bottom: 1px solid #303052;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+    color: #7b91ff;
+}
+
+.logo span {
+    color: #b66dff;
+}
+
+button, .button {
+    display: inline-block;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #4169ff, #963fff);
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+main {
+    max-width: 1000px;
+    margin: auto;
+    padding: 25px 18px;
+}
+
+.welcome {
+    padding: 28px;
+    border: 1px solid #34345a;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #171735, #111124);
+}
+
+.welcome h1 {
+    margin-top: 0;
+    font-size: 30px;
+}
+
+.muted {
+    color: #b3b3ce;
+    line-height: 1.6;
+}
+
+.tools {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.card {
+    background: #121225;
+    border: 1px solid #303052;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.card h2 {
+    color: #a58bff;
+    font-size: 19px;
+}
+
+.card p {
+    color: #b3b3ce;
+    line-height: 1.5;
+}
+
+.card button {
+    margin-top: 8px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    background: #090917;
+    border: 1px solid #39395e;
+    border-radius: 8px;
+    color: white;
+    margin: 10px 0;
+    font: inherit;
+}
+
+#notice {
+    color: #c5baff;
+    line-height: 1.6;
+}
+
+footer {
+    padding: 25px;
+    text-align: center;
+    color: #9696b0;
+    font-size: 13px;
+}
+
+@media (max-width: 500px) {
+    .tools {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome h1 {
+        font-size: 25px;
+    }
+
+    header {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">LarryVision <span>AI</span></div>
+    <a class="button" href="login.html">Sign In</a>
+</header>
+
+<main>
+
+    <section class="welcome">
+        <h1>Your Creative Workspace 🎬</h1>
+
+        <p class="muted">
+            Imagine It. Create It. See It.
+        </p>
+
+        <p>
+            Welcome to LarryVision AI, your workspace
+            for planning and managing video projects.
+        </p>
+    </section>
+
+    <h2>AI Creation Tools</h2>
+
+    <section class="tools">
+
+        <article class="card">
+            <h2>🎥 Text to Video</h2>
+
+            <p>
+                Describe your idea and prepare a
+                video-generation request.
+            </p>
+
+            <button onclick="showTool('Text to Video')">
+                Open Tool
+            </button>
+        </article>
+
+        <article class="card">
+            <h2>🖼️ Image to Video</h2>
+
+            <p>
+                Prepare an image for animation
+                with a compatible AI service.
+            </p>
+
+            <button onclick="showTool('Image to Video')">
+                Open Tool
+            </button>
+        </article>
+
+        <article class="card">
+            <h2>✂️ Video Editor</h2>
+
+            <p>
+                Access the planned workspace
+                for video editing.
+            </p>
+
+            <button onclick="showTool('Video Editor')">
+                Open Tool
+            </button>
+        </article>
+
+        <article class="card">
+            <h2>✨ Prompt Assistant</h2>
+
+            <p>
+                Write a video idea and improve
+                your description.
+            </p>
+
+            <textarea id="idea"
+                placeholder="Describe the video you imagine...">
+            </textarea>
+
+            <button onclick="improvePrompt()">
+                Improve My Prompt
+            </button>
+        </article>
+
+    </section>
+
+    <section class="card" style="margin-top:20px">
+        <h2>📁 My Projects</h2>
+
+        <p>
+            Your project list will appear here after
+            we implement project storage and accounts.
+        </p>
+
+        <p id="notice">
+            Workspace ready. Connect the required
+            services to enable full AI functionality.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <p>LarryVision Technologies</p>
+    <p>Imagine It. Create It. See It.</p>
+    <p>© 2026 LarryVision AI</p>
+</footer>
+
+<script>
+function showTool(name) {
+    document.getElementById("notice").textContent =
+        name + " selected. This tool still needs its " +
+        "working editor or AI service integration.";
+}
+
+function improvePrompt() {
+    const idea = document.getElementById("idea")
+        .value.trim();
+
+    const notice = document.getElementById("notice");
+
+    if (!idea) {
+        notice.textContent =
+            "Please enter a video idea first.";
+        return;
+    }
+
+    notice.textContent =
+        "Suggested prompt: Create a detailed, " +
+        "high-quality video showing " + idea +
+        ". Include natural lighting, realistic motion, " +
+        "consistent details, smooth camera movement, " +
+        "and a professional composition. " +
+        "This is a basic prompt template, not an AI-generated result.";
+}
+</script>
+
+</body>
+</html>
