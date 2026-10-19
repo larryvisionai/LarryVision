@@ -45,7 +45,16 @@ button {
     font-weight: bold;
     cursor: pointer;
 }
-
+.signin-button {
+    display: inline-block;
+    padding: 12px 18px;
+    background: linear-gradient(90deg, #4169ff, #a044ff);
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
 .hero {
     text-align: center;
     padding: 65px 20px 40px;
