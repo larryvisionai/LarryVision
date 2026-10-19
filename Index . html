@@ -144,7 +144,7 @@ footer {
 
 <header>
     <div class="logo">LarryVision <span>AI</span></div>
-    <a href="login.html" class="signin-button">Sign In</a>
+    <a href="login.html" clasa="signin-button">Sign In</a>
 </header>
 
 <section class="hero">
