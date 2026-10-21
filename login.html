@@ -198,56 +198,7 @@ a {
 </main>
 
 <script>
-let mode = "login";
 
-function setMode(newMode) {
-    mode = newMode;
-
-    const registering = mode === "register";
-
-    document.getElementById("nameField").hidden =
-        !registering;
-
-    document.getElementById("name").required =
-        registering;
-
-    document.getElementById("loginTab")
-        .classList.toggle("active", !registering);
-
-    document.getElementById("registerTab")
-        .classList.toggle("active", registering);
-
-    document.getElementById("submitButton").textContent =
-        registering ? "Create Account" : "Sign In";
-
-    document.getElementById("forgot").hidden =
-        registering;
-
-    document.getElementById("password").autocomplete =
-        registering ? "new-password" : "current-password";
-
-    document.getElementById("message").textContent = "";
-}
-
-document.getElementById("authForm")
-.addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const message = document.getElementById("message");
-
-    message.textContent =
-        "The form is working, but account registration " +
-        "and sign-in require a secure authentication " +
-        "service. No account has been created yet.";
-});
-
-function showRecovery(event) {
-    event.preventDefault();
-
-    document.getElementById("message").textContent =
-        "Password recovery will be available after " +
-        "we connect the authentication service.";
-}
 </script>
 
 </body>
