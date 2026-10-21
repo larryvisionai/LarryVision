@@ -198,8 +198,81 @@ a {
 </main>
 
 <script>
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
 const SUPABASE_URL = "https://ydswbvrzryzkufhcoglc.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_sPzowpdcmWMK4Lo7CUZFNQ_Mitp67g9";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll("button");
+
+    buttons.forEach(function (button) {
+        if (button.textContent.trim().toLowerCase().includes("create account")) {
+            button.addEventListener("click", async function (event) {
+                event.preventDefault();
+
+                const emailInput = document.querySelector(
+                    'input[type="email"]'
+                );
+
+                const passwordInput = document.querySelector(
+                    'input[type="password"]'
+                );
+
+                if (!emailInput || !passwordInput) {
+                    alert("Email or password field not found.");
+                    return;
+                }
+
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+
+                if (!email || !password) {
+                    alert("Please enter your email and password.");
+                    return;
+                }
+
+                button.disabled = true;
+                button.textContent = "Creating account...";
+
+                try {
+                    const { data, error } =
+                        await supabaseClient.auth.signUp({
+                            email: email,
+                            password: password
+                        });
+
+                    if (error) {
+                        alert("Registration failed: " + error.message);
+                        return;
+                    }
+
+                    alert(
+                        "Account request successful! Check your email " +
+                        "if confirmation is required."
+                    );
+
+                    if (data.session) {
+                        window.location.href = "dashboard.html";
+                    }
+                } catch (error) {
+                    alert("Something went wrong. Please try again.");
+                    console.error(error);
+                } finally {
+                    button.disabled = false;
+                    button.textContent = "Create Account";
+                }
+            });
+        }
+    });
+});
+</script> 
 </script>
 
 </body>
