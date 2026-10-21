@@ -196,12 +196,12 @@ a {
     </p>
 
 </main>
+    
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const SUPABASE_URL = "https://ydswbvrzryzkufhcoglc.supabase.co";
+const SUPABASE_URL = "const SUPABASE_URL = "https://ydswbvrzryzkufhcoglc.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_sPzowpdcmWMK4Lo7CUZFNQ_Mitp67g9"";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_sPzowpdcmWMK4Lo7CUZFNQ_Mitp67g9";
 
 const supabaseClient = window.supabase.createClient(
@@ -209,70 +209,132 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_PUBLISHABLE_KEY
 );
 
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll("button");
+let currentMode = "login";
 
-    buttons.forEach(function (button) {
-        if (button.textContent.trim().toLowerCase().includes("create account")) {
-            button.addEventListener("click", async function (event) {
-                event.preventDefault();
+function setMode(mode) {
+    currentMode = mode;
 
-                const emailInput = document.querySelector(
-                    'input[type="email"]'
-                );
+    const loginTab = document.getElementById("loginTab");
+    const registerTab = document.getElementById("registerTab");
+    const nameField = document.getElementById("nameField");
+    const nameInput = document.getElementById("name");
+    const submitButton = document.getElementById("submitButton");
+    const forgot = document.getElementById("forgot");
+    const password = document.getElementById("password");
+    const message = document.getElementById("message");
 
-                const passwordInput = document.querySelector(
-                    'input[type="password"]'
-                );
+    loginTab.classList.toggle("active", mode === "login");
+    registerTab.classList.toggle("active", mode === "register");
 
-                if (!emailInput || !passwordInput) {
-                    alert("Email or password field not found.");
-                    return;
-                }
+    nameField.hidden = mode !== "register";
+    nameInput.required = mode === "register";
 
-                const email = emailInput.value.trim();
-                const password = passwordInput.value;
+    password.autocomplete =
+        mode === "register" ? "new-password" : "current-password";
 
-                if (!email || !password) {
-                    alert("Please enter your email and password.");
-                    return;
-                }
+    submitButton.textContent =
+        mode === "register" ? "Create Account" : "Sign In";
 
-                button.disabled = true;
-                button.textContent = "Creating account...";
+    forgot.hidden = mode === "register";
+    message.textContent = "";
+}
 
-                try {
-                    const { data, error } =
-                        await supabaseClient.auth.signUp({
-                            email: email,
-                            password: password
-                        });
+function showRecovery(event) {
+    event.preventDefault();
 
-                    if (error) {
-                        alert("Registration failed: " + error.message);
-                        return;
-                    }
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message");
 
-                    alert(
-                        "Account request successful! Check your email " +
-                        "if confirmation is required."
-                    );
+    if (!email) {
+        message.textContent =
+            "Enter your email address first, then tap Forgot your password again.";
+        return;
+    }
 
-                    if (data.session) {
-                        window.location.href = "dashboard.html";
-                    }
-                } catch (error) {
-                    alert("Something went wrong. Please try again.");
-                    console.error(error);
-                } finally {
-                    button.disabled = false;
-                    button.textContent = "Create Account";
-                }
-            });
+    supabaseClient.auth.resetPasswordForEmail(email)
+        .then(({ error }) => {
+            message.textContent = error
+                ? error.message
+                : "If an account exists for this email, password recovery instructions will be sent.";
+        })
+        .catch(() => {
+            message.textContent =
+                "Unable to request password recovery. Please try again.";
+        });
+}
+
+document.getElementById("authForm").addEventListener(
+    "submit",
+    async function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const name = document.getElementById("name").value.trim();
+        const message = document.getElementById("message");
+        const submitButton = document.getElementById("submitButton");
+
+        if (currentMode === "register" && !name) {
+            message.textContent = "Please enter your full name.";
+            return;
         }
-    });
-});
-</script> 
 
+        submitButton.disabled = true;
+        message.textContent = "Please wait...";
+
+        try {
+            let result;
+
+            if (currentMode === "register") {
+                result = await supabaseClient.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: name
+                        }
+                    }
+                });
+            } else {
+                result = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+            }
+
+            if (result.error) {
+                message.textContent = result.error.message;
+                return;
+            }
+
+            if (currentMode === "register") {
+                if (result.data.session) {
+                    message.textContent = "Account created successfully!";
+                    window.location.href = "dashboard.html";
+                } else {
+                    message.textContent =
+                        "Registration received. Check your email to confirm your account before signing in.";
+                }
+            } else {
+                message.textContent = "Sign in successful!";
+                window.location.href = "dashboard.html";
+            }
+
+        } catch (error) {
+            message.textContent =
+                "Unable to connect. Check your internet connection and try again.";
+            console.error(error);
+        } finally {
+            submitButton.disabled = false;
+
+            submitButton.textContent =
+                currentMode === "register" ? "Create Account" : "Sign In";
+        }
+    }
+);
+
+setMode("login");
+</script>
+    
 </body>
 </html>
