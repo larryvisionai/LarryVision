@@ -285,15 +285,16 @@ document.getElementById("authForm").addEventListener(
             let result;
 
             if (currentMode === "register") {
-                result = await supabaseClient.auth.signUp({
-                    email: email,
-                    password: password,
-                    options: {
-                        data: {
-                            full_name: name
-                        }
-                    }
-                });
+ result = await supabaseClient.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+        emailRedirectTo: "https://larryvisionai.github.io/LarryVision/login.html",
+        data: {
+            full_name: name
+        }
+    }
+});
             } else {
                 result = await supabaseClient.auth.signInWithPassword({
                     email: email,
