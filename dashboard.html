@@ -207,7 +207,16 @@ renderProjects();
         }
 
         console.log("LarryVision AI: Signed-in session found.");
+window.signOut = async function () {
+    const { error } = await client.auth.signOut();
 
+    if (error) {
+        alert("Sign out failed. Please try again.");
+        return;
+    }
+
+    window.location.replace("login.html");
+};
     } catch (error) {
         document.body.innerHTML =
             "<p style='color:white;background:#080812;padding:20px'>" +
