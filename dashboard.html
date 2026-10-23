@@ -187,5 +187,33 @@ function signOut(){
 }
 
 renderProjects();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+(async function () {
+    const SUPABASE_URL = "https://ydswbvrzryzkufhcoglc.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_sPzowpdcmWMK4Lo7CUZFNQ_Mitp67g9";
+
+    try {
+        const client = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+        const { data, error } = await client.auth.getSession();
+
+        if (error || !data.session) {
+            window.location.replace("login.html");
+            return;
+        }
+
+        console.log("LarryVision AI: Signed-in session found.");
+
+    } catch (error) {
+        document.body.innerHTML =
+            "<p style='color:white;background:#080812;padding:20px'>" +
+            "Unable to verify your sign-in. Please return to the login page and try again." +
+            "</p>";
+    }
+})();
 </script></body>
 </html>
