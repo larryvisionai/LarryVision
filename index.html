@@ -243,24 +243,46 @@ footer {
 </footer>
 
 <script>
-function generateVideo() {
-    const prompt = document.getElementById("prompt").value.trim();
-    const style = document.getElementById("style").value;
-    const duration = document.getElementById("duration").value;
+async function generateVideo() {
     const message = document.getElementById("message");
 
-    if (!prompt) {
-        message.textContent =
-            "Please describe the video you want to create.";
-        return;
-    }
+    // Check whether the user is signed in.
+    message.textContent = "Checking your sign-in status...";
 
-    message.textContent =
-        "Your " + style.toLowerCase() +
-        " video concept is ready. Duration: " +
-        duration + " seconds. " +
-        "AI video generation is not connected yet. " +
-        "A compatible AI service and secure backend are needed to generate the actual video.";
+    try {
+        const { data, error } = await supabaseClient.auth.getSession();
+
+        if (error || !data.session) {
+            const returnTo = encodeURIComponent(
+                window.location.origin +
+                window.location.pathname
+            );
+
+            window.location.href =
+                "login.html?returnTo=" + returnTo;
+            return;
+        }
+
+        const prompt = document.getElementById("prompt").value.trim();
+        const style = document.getElementById("style").value;
+        const duration = document.getElementById("duration").value;
+
+        if (!prompt) {
+            message.textContent =
+                "Please describe the video you want to create.";
+            return;
+        }
+
+        message.textContent =
+            "Your " + style.toLowerCase() +
+            " video concept is ready. Duration: " +
+            duration + " seconds. " +
+            "Actual AI video generation still requires a connected AI service.";
+
+    } catch (error) {
+        message.textContent =
+            "We couldn't verify your sign-in. Please try again.";
+    }
 }
 
 function showLogin() {
