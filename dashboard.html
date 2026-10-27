@@ -188,10 +188,20 @@ function signOut(){
 
 renderProjects();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
 (async function () {
-    const SUPABASE_URL = "https://ydswbvrzryzkufhcoglc.supabase.co";
+    const SUPABASE_URL = " "https://ydswbvrzryzkufhcoglc.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_sPzowpdcmWMK4Lo7CUZFNQ_Mitp67g9"";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_sPzowpdcmWMK4Lo7CUZFNQ_Mitp67g9";
+
+    if (!window.supabase) {
+        document.body.innerHTML =
+            "<p style='color:white;background:#080812;padding:20px'>" +
+            "Unable to load authentication. Please refresh the page." +
+            "</p>";
+        return;
+    }
 
     try {
         const client = window.supabase.createClient(
@@ -206,23 +216,26 @@ renderProjects();
             return;
         }
 
-        console.log("LarryVision AI: Signed-in session found.");
-window.signOut = async function () {
-    const { error } = await client.auth.signOut();
+        window.signOut = async function () {
+            const { error } = await client.auth.signOut();
 
-    if (error) {
-        alert("Sign out failed. Please try again.");
-        return;
-    }
+            if (error) {
+                alert("Sign out failed. Please try again.");
+                return;
+            }
 
-    window.location.replace("login.html");
-};
+            window.location.replace("login.html");
+        };
+
+        console.log("LarryVision AI: Signed-in session verified.");
+
     } catch (error) {
         document.body.innerHTML =
             "<p style='color:white;background:#080812;padding:20px'>" +
-            "Unable to verify your sign-in. Please return to the login page and try again." +
+            "Unable to verify your sign-in. Please return to the login page." +
             "</p>";
     }
 })();
-</script></body>
+</script>
+</body>
 </html>
