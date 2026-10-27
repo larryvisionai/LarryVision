@@ -251,45 +251,58 @@ footer {
 
 <script>
 async function generateVideo() {
-    const message = document.getElementById("message");
+const message = document.getElementById("message");
 
-    // Check whether the user is signed in.
-    message.textContent = "Checking your sign-in status...";
+message.textContent = "Checking your sign-in status...";
 
-    try {
-        const { data, error } = await supabaseClient.auth.getSession();
-
-        if (error || !data.session) {
-            const returnTo = encodeURIComponent(
-                window.location.origin +
-                window.location.pathname
-            );
-
-            window.location.href =
-                "login.html?returnTo=" + returnTo;
-            return;
-        }
-
-        const prompt = document.getElementById("prompt").value.trim();
-        const style = document.getElementById("style").value;
-        const duration = document.getElementById("duration").value;
-
-        if (!prompt) {
-            message.textContent =
-                "Please describe the video you want to create.";
-            return;
-        }
-
+try {
+    if (!supabaseClient) {
         message.textContent =
-            "Your " + style.toLowerCase() +
-            " video concept is ready. Duration: " +
-            duration + " seconds. " +
-            "Actual AI video generation still requires a connected AI service.";
+            "LarryVision AI is connecting. Please refresh and try again.";
+        return;
+    }
 
-    } catch (error) {
+    const { data, error } = await supabaseClient.auth.getSession();
+
+    if (error) {
         message.textContent =
             "We couldn't verify your sign-in. Please try again.";
+        return;
     }
+
+    if (!data.session) {
+        const returnTo = encodeURIComponent(
+            window.location.origin +
+            window.location.pathname
+        );
+
+        window.location.href = "login.html?returnTo=" + returnTo;
+        return;
+    }
+
+    const prompt = document.getElementById("prompt").value.trim();
+    const style = document.getElementById("style").value;
+    const duration = document.getElementById("duration").value;
+    const aspectRatio = document.getElementById("aspectRatio").value;
+
+    if (!prompt) {
+        message.textContent =
+            "Please describe the video you want to create.";
+        return;
+    }
+
+    message.textContent =
+        "Your video settings are ready!\n" +
+        "Style: " + style + "\n" +
+        "Duration: " + duration + " seconds\n" +
+        "Aspect ratio: " + aspectRatio + "\n" +
+        "Prompt: " + prompt + "\n\n" +
+        "Actual AI video generation is not connected yet.";
+} catch (error) {
+    message.textContent =
+        "Something went wrong. Please refresh and try again.";
+}
+
 }
 
 function showLogin() {
